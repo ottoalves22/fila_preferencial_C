@@ -71,9 +71,39 @@ void exibirLog(PFILA f){
 
 bool inserirPessoaNaFila(PFILA f, int id, int ehPreferencial){
   bool resposta = false;
-  PONT aux = buscarID(f, id);
+  PONT aux, ant;
+  aux = buscarID(f, id);
   if (id < 0 || aux!= NULL) return false;
-  /* COMPLETAR */
+  aux = (PONT) malloc(sizeof(ELEMENTO));
+  aux->id = id;
+  aux->ehPreferencial = ehPreferencial;
+  ant = f->inicioGeral;
+  if(ant == NULL){
+    f->inicioGeral = aux;
+    f->fimGeral = aux;
+  } else {
+    while(ant->prox != NULL) {
+      ant = ant->prox;
+    }
+    (ant->prox) = aux;
+    f->fimGeral = aux;
+  }
+  if(ehPreferencial == 1 || ehPreferencial == true) {
+    PONT aux2 = (PONT) malloc(sizeof(ELEMENTO));
+    aux2->id = id;
+    aux2->ehPreferencial = ehPreferencial;
+    ant = f->inicioPref;
+    if(ant == NULL){
+      f->inicioPref = aux2;
+      f->fimPref = aux2;
+    } else {
+      while(ant->prox != NULL) {
+        ant = ant->prox;
+      }
+      (ant->prox) = aux2;
+      f->fimPref = aux2;
+    }
+  }
   resposta = true;
   return resposta;
 }
