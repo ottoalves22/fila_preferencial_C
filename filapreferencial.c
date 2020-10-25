@@ -113,7 +113,11 @@ bool inserirPessoaNaFila(PFILA f, int id, int ehPreferencial){
 bool atenderPrimeiraDaFilaPreferencial(PFILA f, int* id){
   bool resposta = false;
   if(tamanho(f) == 0) return resposta;
-  /* COMPLETAR */
+  PONT* atendido = f->inicioPref;
+  f->inicioPref = atendido->prox;
+  *id = atendido->id;
+  //free(atendido)
+  //usar id para buscar e tirar da fila geral
   resposta = true;
   return resposta;
 }
