@@ -113,13 +113,28 @@ bool inserirPessoaNaFila(PFILA f, int id, int ehPreferencial){
 bool atenderPrimeiraDaFilaPreferencial(PFILA f, int* id){
   bool resposta = false;
   if(tamanho(f) == 0) return resposta;
-  PONT* atendido = f->inicioPref;
-  f->inicioPref = atendido->prox;
-  *id = atendido->id;
-  //free(atendido)
-  //usar id para buscar e tirar da fila geral
   resposta = true;
-  return resposta;
+  PONT atendido = f->inicioPref;
+  if(atendido!=NULL){
+    *id = atendido->id;
+    f->inicioPref = atendido->prox;
+    PONT atendido2 = buscarID(f, atendido->id);
+    PONT atendido3 = f->inicioGeral;
+    while(atendido3->prox != atendido2){
+      atendido3 = atendido3->prox;
+    }
+    atendido3->prox = atendido2->prox;
+    free(atendido2);
+    free(atendido);
+    resposta = true;
+    return resposta;
+  } else {
+    atendido = f->inicioGeral;
+    f->inicioGeral = atendido->prox;
+    free(atendido);
+    resposta = true;
+    return resposta;
+  }
 }
 
 
@@ -137,9 +152,19 @@ bool atenderPrimeiraDaFilaGeral(PFILA f, int* id){
 bool desistirDaFila(PFILA f, int id){
   bool resposta = false;
   PONT aux = buscarID(f, id);
+  PONT aux2 = f->inicioPref;
   if(aux == NULL) return resposta;
-
-  /* COMPLETAR */
+  if(aux->ehPreferencial != true){
+    aux->prox = (aux->prox)->prox;
+    free(aux);
+  } else {
+    aux->prox = (aux->prox)->prox;
+    free(aux);
+    while((aux2->prox)->id != id) {
+      aux2 = aux2->prox;
+    }
+    free(aux2);
+  }
   resposta = true;
   return resposta;
 }
