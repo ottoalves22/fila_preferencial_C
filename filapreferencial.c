@@ -142,9 +142,22 @@ bool atenderPrimeiraDaFilaPreferencial(PFILA f, int* id){
 bool atenderPrimeiraDaFilaGeral(PFILA f, int* id){
   bool resposta = false;
   if(tamanho(f) == 0) return resposta;
-  /* COMPLETAR */
-  resposta = true;
-  return resposta;
+  PONT primeiro = f->inicioGeral;
+  *id = primeiro->id;
+  if(primeiro->ehPreferencial == true){
+    f->inicioGeral = primeiro->prox;
+    PONT aux = f->inicioPref;
+    f->inicioPref = aux->prox;
+    free(aux);
+    free(primeiro);
+    resposta =true;
+    return resposta;
+  } else {
+    f->inicioGeral = primeiro->prox;
+    free(primeiro);
+    resposta = true;
+    return resposta;
+  }
 }
 
 
