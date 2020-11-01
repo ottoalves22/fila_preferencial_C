@@ -142,22 +142,23 @@ bool atenderPrimeiraDaFilaPreferencial(PFILA f, int* id){
 bool atenderPrimeiraDaFilaGeral(PFILA f, int* id){
   bool resposta = false;
   if(tamanho(f) == 0) return resposta;
-  PONT primeiro = f->inicioGeral;
-  *id = primeiro->id;
-  if(primeiro->ehPreferencial == true){
-    f->inicioGeral = primeiro->prox;
-    PONT aux = f->inicioPref;
-    f->inicioPref = aux->prox;
-    free(aux);
-    free(primeiro);
-    resposta =true;
-    return resposta;
-  } else {
-    f->inicioGeral = primeiro->prox;
-    free(primeiro);
-    resposta = true;
-    return resposta;
+  resposta = true;
+  PONT atendido = f->inicioGeral;
+  if(atendido!=NULL){
+    *id = atendido->id;
+    f->inicioGeral = atendido->prox;
+    printf("atendeu \n");
+    if(atendido->ehPreferencial==true){
+      printf("preferencial 1 ----------- \n");
+      PONT aux = f->inicioPref;
+      f->inicioPref = aux->prox;
+      printf("preferencial 2 ----------- \n");
+    }
+    free(atendido);
+    printf("merda \n");
   }
+  //
+  return true;
 }
 
 
