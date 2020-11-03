@@ -118,6 +118,9 @@ bool atenderPrimeiraDaFilaPreferencial(PFILA f, int* id){
   if(atendido!=NULL){
     *id = atendido->id;
     f->inicioPref = atendido->prox;
+    PONT aux = buscarID(f, *id);
+    f->inicioGeral = aux->prox;
+    free(aux);
     //remover essa porra de cima da fila geral
     free(atendido);
     resposta = true;
@@ -141,8 +144,8 @@ bool atenderPrimeiraDaFilaGeral(PFILA f, int* id){
         free(aux);
     }
   free(atendido);
-  return resposta;
   }
+  return resposta;
 }
 
 
