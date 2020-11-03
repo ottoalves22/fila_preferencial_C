@@ -109,7 +109,7 @@ bool inserirPessoaNaFila(PFILA f, int id, int ehPreferencial){
 }
 
 
-
+//ESSA PARTE TA ERRADA
 bool atenderPrimeiraDaFilaPreferencial(PFILA f, int* id){
   bool resposta = false;
   if(tamanho(f) == 0) return resposta;
@@ -118,19 +118,7 @@ bool atenderPrimeiraDaFilaPreferencial(PFILA f, int* id){
   if(atendido!=NULL){
     *id = atendido->id;
     f->inicioPref = atendido->prox;
-    PONT atendido2 = buscarID(f, atendido->id);
-    PONT atendido3 = f->inicioGeral;
-    while(atendido3->prox != atendido2){
-      atendido3 = atendido3->prox;
-    }
-    atendido3->prox = atendido2->prox;
-    free(atendido2);
-    free(atendido);
-    resposta = true;
-    return resposta;
-  } else {
-    atendido = f->inicioGeral;
-    f->inicioGeral = atendido->prox;
+    //remover essa porra de cima da fila geral
     free(atendido);
     resposta = true;
     return resposta;
@@ -147,18 +135,14 @@ bool atenderPrimeiraDaFilaGeral(PFILA f, int* id){
   if(atendido!=NULL){
     *id = atendido->id;
     f->inicioGeral = atendido->prox;
-    printf("atendeu \n");
-    if(atendido->ehPreferencial==true){
-      printf("preferencial 1 ----------- \n");
-      PONT aux = f->inicioPref;
-      f->inicioPref = aux->prox;
-      printf("preferencial 2 ----------- \n");
+    if(atendido->ehPreferencial == true) {
+        PONT aux = f->inicioPref;
+        f->inicioPref = aux->prox;
+        free(aux);
     }
-    free(atendido);
-    printf("merda \n");
+  free(atendido);
+  return resposta;
   }
-  //
-  return true;
 }
 
 
