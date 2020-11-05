@@ -160,21 +160,58 @@ bool atenderPrimeiraDaFilaGeral(PFILA f, int* id){
 }
 
 
-
 bool desistirDaFila(PFILA f, int id){
   bool resposta = false;
   PONT aux = buscarID(f, id);
-  PONT aux2 = f->inicioPref;
   if(aux == NULL) return resposta;
-  if(aux->ehPreferencial != true){
-    aux->prox = (aux->prox)->prox;
-    free(aux);
+  if(aux->ehPreferencial == true){
+    //fila preferencial
+    PONT pref = f->inicioPref;
+    PONT ant = NULL;
+    if(f->inicioPref->id == id){
+      f->inicioPref = pref->prox;
+    } else {
+      while(pref->id != id){
+        ant = pref;
+        pref = pref->prox;
+      }
+      ant->prox = pref->prox;
+    }
+    if(ant != NULL)ant->prox = pref->prox;
+    free(pref);
+    //fila geral
+    PONT geral = f->inicioGeral;
+    ant = NULL;
+    if(f->inicioGeral->id == id){
+      f->inicioGeral = geral->prox;
+    } else {
+      while(geral->id != id){
+        ant = geral;
+        geral = geral->prox;
+      }
+      ant->prox = aux->prox;
+    }
+    if(ant != NULL)ant->prox = geral->prox;
+    free(geral);
+
+    resposta = true;
+    return resposta;
   } else {
-    aux->prox = (aux->prox)->prox;
-    free(aux);
-    free(aux2);
+    PONT geral = f->inicioGeral;
+    PONT ant = NULL;
+
+    if(f->inicioGeral->id == id){
+      f->inicioGeral = geral->prox;
+    } else {
+      while(geral->id != id){
+        ant = geral;
+        geral = geral->prox;
+      }
+      ant->prox = aux->prox;
+    }
+    if(ant != NULL)ant->prox = geral->prox;
+    free(geral);
+    resposta = true;
+    return resposta;
   }
-  printf("final \n\n");
-  resposta = true;
-  return resposta;
 }
