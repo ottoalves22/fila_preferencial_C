@@ -124,7 +124,7 @@ bool atenderPrimeiraDaFilaPreferencial(PFILA f, int* id){
     } else {
       while(aux->id != *id){
         ant = aux;
-        aux = ant->prox;
+        aux = aux->prox;
       }
       ant->prox = aux->prox;
     }
